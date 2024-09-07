@@ -3,8 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  // Colors
+  --primary-hex: #030303;
+  --primary: 0 0% 1%; // HSL
+  --secondary-hex: #1234ff;
+  --secondary: 231 100% 54%; // HSL
+  --accent-hex: #59fbda;
+  --accent: 168 95% 67%; // HSL
+  --red-hex: #ff001e;
+  --red: 353 100% 50%; // HSL
+  --white-hex: #fafafa;
+  --white: 0 0% 98%; // HSL
+
+  // Fonts
+  --font-mono: var(--source-code-pro);
+  --font-serif: var(--trirong);
+  --font-sans: var(--nunito);
+  --font-logo: var(--crimson-pro);
+
+  --font-weight-title: 900;
+  --font-weight-head1: 900;
+  --font-weight-head2: 900;
+  --font-weight-head3: 900;
+  --font-weight-head4: 700;
+  --font-weight-head5: 600;
+  --font-weight-text: 400;
+  --font-weight-light: 300;
+
+  --font-size-title: 6rem;
+  --font-size-head1: 6rem;
+  --font-size-head2: 4.5rem;
+  --font-size-head3: 3rem;
+  --font-size-head4: 1.5rem;
+  --font-size-head5: 1.5rem;
+  --font-size-text: 1rem;
+
+  // Text
+  --line-height-title: calc(var(--font-size-title) * 1.5);
+  --line-height-head1: calc(var(--font-size-head1) * 1.5);
+  --line-height-head2: calc(var(--font-size-head2) * 1.5);
+  --line-height-head3: calc(var(--font-size-head3) * 1.5);
+  --line-height-head4: calc(var(--font-size-head4) * 1.5);
+  --line-height-head5: calc(var(--font-size-head5) * 1.5);
+  --line-height-text: calc(var(--font-size-text) * 1.5);
+
+  // Spacing
+  --space-1: 1rem;
+  --space-2: 2rem;
+  --space-3: 3rem;
+
+  // Decoration
+  // Layout
+  // Transition
+  --transition-default: all 0.2s ease-out;
 }
 
 @media (prefers-color-scheme: dark) {
