@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${crimsonPro.variable} ${trirong.variable} ${nunito.variable} ${sourceCodePro.variable} flex antialiased bg-grain bg-white-500`}
+        className={`flex antialiased bg-grain bg-white-500 ${crimsonPro.variable} ${trirong.variable} ${nunito.variable} ${sourceCodePro.variable}`}
       >
         {children}
       </body>
