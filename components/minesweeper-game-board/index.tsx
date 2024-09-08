@@ -51,6 +51,10 @@ export default function MinesweeperGameBoard(props: MinesweeperGameBoardProps) {
     return 30 * 30;
   }, [max]);
 
+  const isValid = (row: number, col: number) => {
+    return row >= 0 && row < ROWS && col >= 0 && col < COLS;
+  };
+
   const indexOf = (row: number, col: number) => {
     return row * COLS + col;
   };
@@ -64,7 +68,7 @@ export default function MinesweeperGameBoard(props: MinesweeperGameBoardProps) {
       const randomC = Math.round(Math.random() * COLS);
 
       if (randomC === col && randomR === row) continue;
-      if (randomR >= 0 && randomR < ROWS && randomC >= 0 && randomC < COLS) {
+      if (isValid(randomR, randomC)) {
         const randomIndex = indexOf(randomR, randomC);
         const randomCell = _board[randomIndex];
         randomCell.isMine = true;
@@ -87,7 +91,7 @@ export default function MinesweeperGameBoard(props: MinesweeperGameBoardProps) {
 
               if (ri === 0 && ci === 0) continue;
 
-              if (rr >= 0 && rr < ROWS && cc >= 0 && cc < COLS) {
+              if (isValid(rr, cc)) {
                 const indexIndex = indexOf(rr, cc);
                 const cellCell = _board[indexIndex];
                 cellCell.mines = cellCell.mines + 1;
@@ -102,11 +106,48 @@ export default function MinesweeperGameBoard(props: MinesweeperGameBoardProps) {
     return _board;
   };
 
+  const flootFill = (
+    row: number,
+    col: number,
+    board: MinesweeperCellData[]
+  ) => {
+    if (!isValid(row, col)) return board;
+
+    const index = indexOf(row, col);
+    const cell = board[index];
+    if (cell.mines !== 0 || cell.isOpened || cell.isMine) return board;
+
+    cell.isOpened = true;
+    board[index] = cell;
+
+    // Up
+    board = flootFill(row - 1, col, board);
+    // Down
+    board = flootFill(row + 1, col, board);
+    // Left
+    board = flootFill(row, col - 1, board);
+    // Right
+    board = flootFill(row, col + 1, board);
+
+    return board;
+  };
+
   const openCell = (row: number, col: number, board: MinesweeperCellData[]) => {
-    const _board = [...board];
+    let _board = [...board];
     const index = indexOf(row, col);
     const cell = _board[index];
     cell.isOpened = true;
+
+    if (cell.mines === 0) {
+      // Up
+      _board = flootFill(row - 1, col, _board);
+      // Down
+      _board = flootFill(row + 1, col, _board);
+      // Left
+      _board = flootFill(row, col - 1, _board);
+      // Right
+      _board = flootFill(row, col + 1, _board);
+    }
 
     _board[index] = cell;
 
