@@ -139,6 +139,7 @@ const config = {
     },
     backgroundImage: {
       grain: 'url("/images/WhiteTexture.png")',
+      mine: 'url("/images/mine.ico")',
       "gradient-to-r": "linear-gradient(to right, var(--tw-gradient-stops))",
     },
     transitionDuration: {
