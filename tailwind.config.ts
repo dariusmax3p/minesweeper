@@ -141,6 +141,7 @@ const config = {
       grain: 'url("/images/WhiteTexture.png")',
       mine: 'url("/images/mine.ico")',
       "gradient-to-r": "linear-gradient(to right, var(--tw-gradient-stops))",
+      flag: 'url("/images/flagged_vn.png")',
     },
     transitionDuration: {
       base: "0.2s",

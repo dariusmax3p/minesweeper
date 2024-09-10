@@ -9,10 +9,16 @@ export type MinesweeperGameBoardProps = {
   data: BoardData;
 };
 
+export type FlaggedCell = {
+  row: number;
+  col: number;
+};
+
 export default function MinesweeperGameBoard(props: MinesweeperGameBoardProps) {
   const { ROWS, COLS, MINES } = props.data;
 
   const [firstMove, setFirstMove] = useState(true);
+  const [flaggedCells, setFlaggedCells] = useState<FlaggedCell[]>([]);
 
   const max = useMemo(() => (ROWS > COLS ? ROWS : COLS), [ROWS, COLS]);
 
@@ -136,6 +142,8 @@ export default function MinesweeperGameBoard(props: MinesweeperGameBoardProps) {
     let _board = [...board];
     const index = indexOf(row, col);
     const cell = _board[index];
+    if (cell.isFlagged) return _board;
+
     cell.isOpened = true;
 
     if (cell.mines === 0) {
@@ -167,7 +175,52 @@ export default function MinesweeperGameBoard(props: MinesweeperGameBoardProps) {
     }
   };
 
-  const onFlag = (row: number, col: number) => {};
+  const flagCell = (row: number, col: number, board: MinesweeperCellData[]) => {
+    let _flaggedCells = [...flaggedCells];
+    if (!isValid(row, col)) {
+      return {
+        flaggedCell: _flaggedCells,
+        board,
+      };
+    }
+
+    const index = indexOf(row, col);
+    const cell = board[index];
+    if (cell.isOpened) {
+      return {
+        flaggedCell: _flaggedCells,
+        board,
+      };
+    }
+
+    if (cell.isFlagged) {
+      // Remove
+      _flaggedCells = _flaggedCells.filter(
+        (c) => c.row !== row || c.col !== col
+      );
+
+      cell.isFlagged = false;
+      board[index] = cell;
+    } else if (_flaggedCells.length < MINES) {
+      _flaggedCells.push({ row, col });
+      cell.isFlagged = true;
+      board[index] = cell;
+    }
+
+    return {
+      flaggedCell: _flaggedCells,
+      board,
+    };
+  };
+
+  const onFlag = (row: number, col: number) => {
+    const { flaggedCell: _flaggedCells, board: _board } = flagCell(row, col, [
+      ...board,
+    ]);
+
+    setBoard(_board);
+    setFlaggedCells(_flaggedCells);
+  };
 
   return (
     <div
